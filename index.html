@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;">
+  
+  <title>Carbon Twin AI</title>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" aria-label="Navigation">
+      <div class="brand">
+        <svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 256,392 C 256,392 392,312 392,192 C 392,120 336,120 256,192 C 176,120 120,120 120,192 C 120,312 256,392 256,392 Z" fill="#10b981" />
+          <path d="M 256,392 L 256,212" stroke="#ffffff" stroke-width="8" stroke-linecap="round" />
+        </svg>
+        <h2 data-i18n="brand_name">Carbon Twin AI</h2>
+      </div>
+      
+      <nav>
+        <ul class="nav-links">
+          <li>
+            <a class="nav-link active" onclick="app.showPage('dashboard')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              <span data-i18n="nav_dashboard">Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('calculator')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <span data-i18n="nav_calculator">Calculator</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('simulator')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span data-i18n="nav_simulator">Simulator</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('learning')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <span data-i18n="nav_learning">Learning Center</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('gamification')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zm-2 2h4M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span data-i18n="nav_challenges">Challenges</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('reports')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span data-i18n="nav_reports">Reports</span>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" onclick="app.showPage('settings')" role="button" tabindex="0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span data-i18n="nav_settings">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar Profile Section -->
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary" onclick="app.toggleDevDrawer()" style="width:100%;font-size:0.8rem;padding:8px;" data-i18n="btn_developer_tools">Developer Drawer</button>
+        <div class="profile-card">
+          <div class="profile-avatar-container">
+            <div class="profile-avatar" id="avatarIcon">CT</div>
+          </div>
+          <div class="profile-info">
+            <span class="profile-name" id="userNameLabel">Eco Walker</span>
+            <span class="profile-persona" id="userPersonaLabel">Conscious User</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Workspace -->
+    <main class="main-content">
+      
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="search-trigger" onclick="app.toggleCommandPalette()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span data-i18n="search_placeholder">Search actions...</span>
+          <span class="shortcut-badge">Ctrl + K</span>
+        </div>
+        
+        <div class="topbar-actions">
+          <!-- Language Selection -->
+          <div style="position:relative;">
+            <button class="lang-toggle" onclick="app.toggleLangDropdown()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 5c-.75-2.08-2.25-5.07-4.088-7M4 9c4.47 0 8.268 2.943 9.542 7M9 11c-.5 1.5-1.5 3.5-3 4.5"/></svg>
+              <span id="currentLangLabel">English</span>
+            </button>
+            <div class="lang-dropdown" id="langDropdown">
+              <div class="lang-option" onclick="app.changeLanguage('en')">English</div>
+              <div class="lang-option" onclick="app.changeLanguage('hi')">हिन्दी (Hindi)</div>
+              <div class="lang-option" onclick="app.changeLanguage('te')">తెలుగు (Telugu)</div>
+            </div>
+          </div>
+          
+          <!-- Theme Toggle -->
+          <button class="theme-toggle-btn" onclick="app.toggleTheme()" aria-label="Toggle Theme">
+            <svg id="themeIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m11.314 11.314l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- PAGE: Dashboard -->
+      <section id="page-dashboard" class="page active">
+        <h1 style="margin-bottom: 24px;" data-i18n="dashboard_heading">Sustainability Dashboard</h1>
+        
+        <div class="dashboard-grid">
+          
+          <!-- Key Indicators (KPI Overview) -->
+          <div class="glass-card span-4 kpi-container">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="kpi_annual_footprint">Annual Carbon Footprint</span>
+              <div class="kpi-value"><span id="kpiFootprintVal">4.80</span> <span style="font-size:1rem;color:var(--text-muted)">t CO₂e</span></div>
+            </div>
+            <div class="kpi-trend down" id="kpiTrendBadge">-12.4%</div>
+          </div>
+          
+          <div class="glass-card span-4 kpi-container">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="kpi_streak">Current Streak</span>
+              <div class="kpi-value"><span id="kpiStreakVal">7</span> <span style="font-size:1rem;color:var(--text-muted)" data-i18n="days">days</span></div>
+            </div>
+            <div style="background:var(--primary-light); color:var(--primary); padding: 4px 8px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;" data-i18n="active">Active</div>
+          </div>
+
+          <div class="glass-card span-4 kpi-container">
+            <div>
+              <span style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="kpi_completed_habits">Habits Completed Today</span>
+              <div class="kpi-value"><span id="kpiHabitsVal">2</span> / <span id="kpiHabitsTotal">4</span></div>
+            </div>
+            <div style="background:var(--accent-light); color:var(--accent); padding: 4px 8px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;" data-i18n="progress">Progress</div>
+          </div>
+
+          <!-- Carbon Health Score Radial Ring -->
+          <div class="glass-card span-4 score-circle-container">
+            <h3 style="position:absolute; top:16px; left:20px; font-size: 1rem; color: var(--text-secondary);" data-i18n="carbon_health_score">Carbon Twin Health Score</h3>
+            <svg class="progress-ring" width="160" height="160">
+              <circle class="progress-ring-circle-bg" stroke-width="12" fill="transparent" r="66" cx="80" cy="80"/>
+              <circle class="progress-ring-circle" stroke-width="12" fill="transparent" r="66" cx="80" cy="80" stroke-dasharray="414.69" stroke-dashoffset="100"/>
+            </svg>
+            <div class="score-center-text">
+              <div class="score-num" id="healthScoreVal">82</div>
+              <div class="score-label" id="healthScoreText">Excellent</div>
+            </div>
+          </div>
+
+          <!-- Carbon Breakdown Donut Chart -->
+          <div class="glass-card span-4" style="height:250px; display:flex; flex-direction:column;">
+            <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom:12px;" data-i18n="carbon_breakdown">Carbon Breakdown</h3>
+            <div style="flex:1; position:relative;">
+              <canvas id="donutBreakdownChart"></canvas>
+            </div>
+          </div>
+
+          <!-- AI Insight Engine & Equivalents -->
+          <div class="glass-card span-4">
+            <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom:12px;" data-i18n="ai_insights">AI Carbon Advisor</h3>
+            <div id="aiInsightsPanel" style="font-size:0.9rem; line-height:1.5; color:var(--text-secondary); height: 110px; overflow-y:auto; margin-bottom:12px;">
+              Analyzing your carbon profile... Calculate your footprint to generate insights.
+            </div>
+            <div style="border-top:1px solid var(--border-color); padding-top:12px; display:flex; align-items:center; gap:12px;">
+              <div style="font-size: 1.5rem;">🌳</div>
+              <div style="font-size: 0.8rem; color:var(--text-muted);">
+                <span data-i18n="equivalent_prefix">Your footprint matches planting</span>
+                <strong id="equivTreesCount" style="color:var(--primary)">220</strong>
+                <span data-i18n="equivalent_suffix">trees annually to offset.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trends & History Line Chart -->
+          <div class="glass-card span-8" style="height: 320px; display:flex; flex-direction:column;">
+            <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom:12px;" data-i18n="trend_chart_title">Carbon Emissions Historical Trend</h3>
+            <div style="flex:1; position:relative;">
+              <canvas id="historicalTrendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Goal Tracker & Streaks -->
+          <div class="glass-card span-4">
+            <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom:12px;" data-i18n="active_goals">Active Goals</h3>
+            <div id="goalsProgressContainer" style="display:flex; flex-direction:column; gap:12px;">
+              <!-- Goals dynamic injection -->
+            </div>
+          </div>
+
+          <!-- Environmental Habit Tracker Grid (Heatmap) -->
+          <div class="glass-card span-12">
+            <h3 style="font-size: 1rem; color: var(--text-secondary);" data-i18n="habit_heatmap_title">Sustainability Contribution Grid</h3>
+            <div class="heatmap-container">
+              <div class="heatmap-grid" id="contributionHeatmap">
+                <!-- 53 columns x 7 rows dynamic grid -->
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">
+                <span data-i18n="heatmap_less">Less Sustainable</span>
+                <div style="display:flex; gap:3px;">
+                  <span class="heatmap-day" style="display:inline-block;"></span>
+                  <span class="heatmap-day lvl-1" style="display:inline-block;"></span>
+                  <span class="heatmap-day lvl-2" style="display:inline-block;"></span>
+                  <span class="heatmap-day lvl-3" style="display:inline-block;"></span>
+                  <span class="heatmap-day lvl-4" style="display:inline-block;"></span>
+                  <span class="heatmap-day lvl-5" style="display:inline-block;"></span>
+                </div>
+                <span data-i18n="heatmap_more">More Sustainable</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- PAGE: Calculator -->
+      <section id="page-calculator" class="page">
+        <h1 style="margin-bottom: 24px;" data-i18n="calc_heading">Interactive Carbon Calculator</h1>
+        
+        <div class="dashboard-grid">
+          <div class="glass-card span-8">
+            <form id="calculatorForm" onsubmit="event.preventDefault();">
+              
+              <h3 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;" data-i18n="calc_transport">1. Transportation</h3>
+              <div class="form-group">
+                <label for="calcDriveDistance" data-i18n="calc_label_car">Annual Drive Distance</label>
+                <div class="input-with-unit">
+                  <input type="number" id="calcDriveDistance" min="0" value="12000" required>
+                  <span class="input-unit" data-i18n="km_year">km/year</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="calcFlightHours" data-i18n="calc_label_flights">Annual Flight Hours</label>
+                <div class="input-with-unit">
+                  <input type="number" id="calcFlightHours" min="0" value="15" required>
+                  <span class="input-unit" data-i18n="hours_year">hours/year</span>
+                </div>
+              </div>
+
+              <h3 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top:28px;" data-i18n="calc_energy">2. Home Energy</h3>
+              <div class="form-group">
+                <label for="calcElectricity" data-i18n="calc_label_elec">Monthly Electricity Consumption</label>
+                <div class="input-with-unit">
+                  <input type="number" id="calcElectricity" min="0" value="300" required>
+                  <span class="input-unit" data-i18n="kwh_month">kWh/month</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="calcGas" data-i18n="calc_label_gas">Monthly Gas Consumption</label>
+                <div class="input-with-unit">
+                  <input type="number" id="calcGas" min="0" value="50" required>
+                  <span class="input-unit" data-i18n="therms_month">therms/month</span>
+                </div>
+              </div>
+
+              <h3 style="margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-top:28px;" data-i18n="calc_diet">3. Diet & Consumption</h3>
+              <div class="form-group">
+                <label for="calcDietType" data-i18n="calc_label_diet">Diet Style</label>
+                <div class="input-with-unit">
+                  <select id="calcDietType" required>
+                    <option value="meat_heavy" data-i18n="diet_meat_heavy">Meat Heavy</option>
+                    <option value="balanced" selected data-i18n="diet_balanced">Balanced</option>
+                    <option value="vegetarian" data-i18n="diet_vegetarian">Vegetarian</option>
+                    <option value="vegan" data-i18n="diet_vegan">Vegan</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="calcShopping" data-i18n="calc_label_shopping">Monthly Shopping Spend (Clothing, electronics, goods)</label>
+                <div class="input-with-unit">
+                  <input type="number" id="calcShopping" min="0" value="200" required>
+                  <span class="input-unit" data-i18n="usd_month">USD/month</span>
+                </div>
+              </div>
+
+              <div style="margin-top: 32px; display:flex; gap:16px;">
+                <button type="button" class="btn btn-primary" onclick="app.runCarbonCalculation()" data-i18n="btn_recalc">Calculate Footprint</button>
+                <button type="reset" class="btn btn-secondary" data-i18n="btn_reset">Reset</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Profile Persona Sidebar -->
+          <div class="glass-card span-4" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h3 style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom:16px;" data-i18n="profile_twin_card">Your Digital Carbon Twin</h3>
+              <div style="display:flex; justify-content:center; margin-bottom:24px; position:relative;">
+                <!-- Animated Twin Ring -->
+                <div style="width:120px; height:120px; border-radius:50%; border:3px solid var(--border-color); display:flex; align-items:center; justify-content:center; background:var(--bg-card); position:relative; overflow:hidden;" id="twinAvatarContainer">
+                  <span style="font-size:3rem;" id="twinEmoji">👣</span>
+                </div>
+              </div>
+              <div style="text-align:center;">
+                <h4 style="font-size:1.25rem; color:var(--text-primary); margin-bottom:6px;" id="twinPersonaTitle">Conscious User</h4>
+                <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;" id="twinPersonaDesc">You have a moderate footprint with minor areas for carbon optimization.</p>
+              </div>
+            </div>
+            
+            <div style="margin-top: 24px; background:rgba(255,255,255,0.02); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:16px;">
+              <h4 style="font-size:0.85rem; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;" data-i18n="explainability_panel">Explainability Report</h4>
+              <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.4;" id="explainabilityReport">
+                This footprint is calculated based on EPA emissions coefficients: Driving (0.404 kg/km), Flight Hours (90 kg/hr), Electricity (0.37 kg/kWh), Gas (5.3 kg/therm), Shopping (0.5 kg/$).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Simulator -->
+      <section id="page-simulator" class="page">
+        <h1 style="margin-bottom: 24px;" data-i18n="sim_heading">Future Impact Simulator</h1>
+        
+        <div class="dashboard-grid">
+          <div class="glass-card span-6">
+            <h3 style="margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom:8px;" data-i18n="sim_actions_title">Projected Reductions</h3>
+            
+            <div class="form-group">
+              <label for="simTransport" style="display:flex; justify-content:space-between;">
+                <span data-i18n="sim_label_transport">Reduce transport emissions</span>
+                <span style="color:var(--primary); font-weight:600;"><span id="simTransportVal">0</span>%</span>
+              </label>
+              <input type="range" id="simTransport" min="0" max="100" value="0" style="width:100%; cursor:pointer;" oninput="app.updateSimulation()">
+            </div>
+
+            <div class="form-group">
+              <label for="simEnergy" style="display:flex; justify-content:space-between;">
+                <span data-i18n="sim_label_energy">Reduce home energy consumption</span>
+                <span style="color:var(--primary); font-weight:600;"><span id="simEnergyVal">0</span>%</span>
+              </label>
+              <input type="range" id="simEnergy" min="0" max="100" value="0" style="width:100%; cursor:pointer;" oninput="app.updateSimulation()">
+            </div>
+
+            <div class="form-group">
+              <label for="simDiet" style="display:flex; justify-content:space-between;">
+                <span data-i18n="sim_label_diet">Shift diet to plant-based</span>
+                <span style="color:var(--primary); font-weight:600;"><span id="simDietVal">0</span>%</span>
+              </label>
+              <input type="range" id="simDiet" min="0" max="100" value="0" style="width:100%; cursor:pointer;" oninput="app.updateSimulation()">
+            </div>
+
+            <div class="form-group">
+              <label for="simConsumption" style="display:flex; justify-content:space-between;">
+                <span data-i18n="sim_label_shopping">Reduce shopping consumption</span>
+                <span style="color:var(--primary); font-weight:600;"><span id="simConsumptionVal">0</span>%</span>
+              </label>
+              <input type="range" id="simConsumption" min="0" max="100" value="0" style="width:100%; cursor:pointer;" oninput="app.updateSimulation()">
+            </div>
+          </div>
+
+          <!-- Simulator Line/Forecast Chart -->
+          <div class="glass-card span-6" style="display:flex; flex-direction:column; height:360px;">
+            <h3 style="font-size: 1rem; color: var(--text-secondary); margin-bottom:12px;" data-i18n="sim_chart_title">10-Year Carbon Reduction Forecast</h3>
+            <div style="flex:1; position:relative;">
+              <canvas id="simulatorForecastChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Learning Center -->
+      <section id="page-learning" class="page">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 24px;">
+          <h1 data-i18n="learn_heading">Sustainability Learning Center</h1>
+          <input type="text" id="learnSearchInput" oninput="app.filterLearning()" placeholder="Search guides..." style="background:var(--bg-card); border:1px solid var(--border-color); color:var(--text-primary); padding:8px 16px; border-radius:var(--radius-sm); outline:none;" data-i18n="learn_search_placeholder">
+        </div>
+        
+        <div class="learn-grid" id="learnCardsContainer">
+          <!-- Flip cards injected here -->
+        </div>
+      </section>
+
+      <!-- PAGE: Gamification -->
+      <section id="page-gamification" class="page">
+        <h1 style="margin-bottom: 24px;" data-i18n="challenges_heading">Gamification & Badges</h1>
+        
+        <div class="dashboard-grid">
+          <!-- Badges & Achievements -->
+          <div class="glass-card span-6">
+            <h3 style="margin-bottom:16px;" data-i18n="achievements_title">Environmental Badges</h3>
+            <div class="badge-grid" id="badgesContainer">
+              <!-- Dynamically rendered badges -->
+            </div>
+          </div>
+
+          <!-- Habit Checklist Tracker -->
+          <div class="glass-card span-6">
+            <h3 data-i18n="daily_habits_title">Daily Sustainability Habits</h3>
+            <div class="habit-list" id="habitsContainer">
+              <!-- Dynamically populated habits checklist -->
+            </div>
+          </div>
+
+          <!-- Mock Leaderboard -->
+          <div class="glass-card span-12">
+            <h3 style="margin-bottom:16px;" data-i18n="leaderboard_title">Global Sustainability Leaderboard</h3>
+            <table style="width:100%; border-collapse:collapse; font-size:0.9rem; text-align:left;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-color); color:var(--text-muted);">
+                  <th style="padding:12px;" data-i18n="leaderboard_rank">Rank</th>
+                  <th style="padding:12px;" data-i18n="leaderboard_user">User</th>
+                  <th style="padding:12px;" data-i18n="leaderboard_score">Carbon Health Score</th>
+                  <th style="padding:12px;" data-i18n="leaderboard_offset">Offset Rate</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody">
+                <!-- Leaderboard rows dynamically injected -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Reports -->
+      <section id="page-reports" class="page">
+        <h1 style="margin-bottom: 24px;" data-i18n="reports_heading">Reports & Exports</h1>
+        
+        <div class="dashboard-grid">
+          <div class="glass-card span-6">
+            <h3 style="margin-bottom:16px;" data-i18n="report_actions">Actions</h3>
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <button class="btn btn-primary" onclick="app.exportReportPDF()" data-i18n="btn_export_pdf">Print / Export PDF</button>
+              <button class="btn btn-secondary" onclick="app.exportDataJSON()" data-i18n="btn_export_data">Export Data (JSON)</button>
+              
+              <div style="border-top:1px solid var(--border-color); padding-top:16px;">
+                <label for="importDataFile" style="display:block; font-size:0.85rem; color:var(--text-secondary); margin-bottom:8px;" data-i18n="import_label">Import Profile Data</label>
+                <input type="file" id="importDataFile" accept=".json" onchange="app.importDataJSON(event)" style="background:var(--bg-card); color:var(--text-primary); border:1px solid var(--border-color); padding:10px; border-radius:var(--radius-sm); width:100%;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Shareable Report Card Mockup -->
+          <div class="glass-card span-6" style="background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(59,130,246,0.1)); border-color: var(--primary);">
+            <h3 style="margin-bottom:16px; text-align:center;" data-i18n="shareable_card_title">Carbon Twin Share Card</h3>
+            <div id="shareCardElement" style="background:#0a0f1d; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:24px; text-align:center; box-shadow:var(--shadow-md);">
+              <h4 style="font-size:1.5rem; color:var(--primary); margin-bottom:8px;" id="sharePersonaName">Eco Walker</h4>
+              <div style="font-size:2rem; font-family:'Outfit'; font-weight:800; margin-bottom:12px;"><span id="shareFootprintVal">4.8</span> t CO₂e</div>
+              <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;" data-i18n="share_card_desc">Reducing carbon footprint dynamically via Carbon Twin AI.</p>
+              <div style="display:inline-block; padding:4px 12px; background:var(--primary-light); color:var(--primary); border-radius:20px; font-size:0.75rem; font-weight:600;" id="shareHealthScoreVal">Health: 82/100</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE: Settings -->
+      <section id="page-settings" class="page">
+        <h1 style="margin-bottom: 24px;" data-i18n="settings_heading">Settings & Preferences</h1>
+        
+        <div class="dashboard-grid">
+          <div class="glass-card span-8">
+            <div class="form-group">
+              <label for="settingsName" data-i18n="settings_name_label">User Profile Name</label>
+              <div class="input-with-unit">
+                <input type="text" id="settingsName" value="Eco Walker" onchange="app.updateSettingsName()">
+              </div>
+            </div>
+            
+            <div class="form-group" style="margin-top:24px;">
+              <h4 style="font-size:0.95rem; color:var(--text-primary); margin-bottom:8px;" data-i18n="settings_danger_zone">Danger Zone</h4>
+              <button class="btn" style="background:var(--danger-light); border-color:var(--danger); color:var(--danger);" onclick="app.factoryReset()" data-i18n="btn_reset_all">Factory Reset Platform Data</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- DEVELOPER DIAGNOSTICS & QA DRAWER -->
+    <div class="dev-drawer" id="devDrawer">
+      <div class="dev-drawer-header">
+        <div class="dev-drawer-tabs">
+          <button class="dev-drawer-tab active" onclick="app.switchDevTab('qa')" data-i18n="dev_tab_qa">QA Automated Center</button>
+          <button class="dev-drawer-tab" onclick="app.switchDevTab('vibe')" data-i18n="dev_tab_vibe">Vibe Test Lab</button>
+          <button class="dev-drawer-tab" onclick="app.switchDevTab('audit')" data-i18n="dev_tab_audit">Security & A11y Audits</button>
+        </div>
+        <button class="btn btn-secondary" onclick="app.toggleDevDrawer()" style="font-size:0.8rem; padding:4px 8px;">✕ Close</button>
+      </div>
+      
+      <div class="dev-drawer-body">
+        
+        <!-- QA Tab -->
+        <div class="dev-tab-content active" id="dev-tab-qa">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span style="font-size:0.9rem; color:var(--text-secondary);" data-i18n="qa_desc">Runs 100 cycles of localized mathematical modules & data integrity verifications.</span>
+            <button class="btn btn-primary" onclick="app.runQACenterSuite()" style="font-size:0.8rem; padding:8px 16px;" data-i18n="btn_run_tests">Run 100 cycles</button>
+          </div>
+          <div id="qaResultsBox" style="max-height:220px; overflow-y:auto;">
+            <p style="color:var(--text-muted); font-size:0.85rem;" data-i18n="qa_idle">Press "Run 100 cycles" to test calculator, simulator, and serialization routines.</p>
+          </div>
+        </div>
+
+        <!-- Vibe Tab -->
+        <div class="dev-tab-content" id="dev-tab-vibe">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span style="font-size:0.9rem; color:var(--text-secondary);" data-i18n="vibe_desc">Simulate 100 synthetic user journeys (randomized actions, calculator updates, theme switches).</span>
+            <button class="btn btn-primary" onclick="app.runVibeTestLab()" style="font-size:0.8rem; padding:8px 16px;" data-i18n="btn_run_vibe">Run Vibe Journey</button>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:12px;">
+            <div style="background:var(--bg-card); padding:8px; border-radius:var(--radius-sm); border:1px solid var(--border-color); text-align:center;">
+              <div style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="vibe_health_score">Health Score</div>
+              <div style="font-size:1.1rem; font-weight:bold; color:var(--primary);" id="vibeHealthVal">-</div>
+            </div>
+            <div style="background:var(--bg-card); padding:8px; border-radius:var(--radius-sm); border:1px solid var(--border-color); text-align:center;">
+              <div style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="vibe_errors">Errors Logged</div>
+              <div style="font-size:1.1rem; font-weight:bold; color:var(--danger);" id="vibeErrorsVal">-</div>
+            </div>
+            <div style="background:var(--bg-card); padding:8px; border-radius:var(--radius-sm); border:1px solid var(--border-color); text-align:center;">
+              <div style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="vibe_avg_latency">Avg Latency</div>
+              <div style="font-size:1.1rem; font-weight:bold; color:var(--secondary);" id="vibeLatencyVal">-</div>
+            </div>
+            <div style="background:var(--bg-card); padding:8px; border-radius:var(--radius-sm); border:1px solid var(--border-color); text-align:center;">
+              <div style="font-size:0.75rem; color:var(--text-secondary);" data-i18n="vibe_memory">Memory Usage</div>
+              <div style="font-size:1.1rem; font-weight:bold; color:var(--warning);" id="vibeMemoryVal">-</div>
+            </div>
+          </div>
+          <div id="vibeLogsBox" style="max-height:140px; overflow-y:auto; font-family:monospace; font-size:0.75rem; color:var(--text-muted); background:rgba(0,0,0,0.2); padding:10px; border-radius:var(--radius-sm);">
+            No vibe test active. Click "Run Vibe Journey" to execute simulated stress testing.
+          </div>
+        </div>
+
+        <!-- Audits Tab -->
+        <div class="dev-tab-content" id="dev-tab-audit">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span style="font-size:0.9rem; color:var(--text-secondary);" data-i18n="audit_desc">Verify Accessibility, Security, and Storage Integrity schemas.</span>
+            <button class="btn btn-primary" onclick="app.runSecurityAndA11yAudits()" style="font-size:0.8rem; padding:8px 16px;" data-i18n="btn_run_audits">Perform Audits</button>
+          </div>
+          <div id="auditResultsBox" style="max-height:220px; overflow-y:auto;">
+            <p style="color:var(--text-muted); font-size:0.85rem;" data-i18n="audit_idle">Click "Perform Audits" to audit DOM structures, local state schemas, and evaluate security guidelines.</p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- COMMAND PALETTE OVERLAY -->
+    <div class="overlay" id="commandPaletteOverlay" onclick="app.handleOverlayClick(event, 'commandPaletteOverlay')">
+      <div class="modal">
+        <div class="palette-search-container">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" class="palette-input" id="paletteSearchInput" oninput="app.searchCommandPalette()" placeholder="Search shortcuts & pages (e.g. 'Calculator', 'Theme')..." data-i18n="palette_placeholder">
+        </div>
+        <div class="palette-results" id="paletteResultsBox">
+          <!-- Dynamic matching palette options -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ONBOARDING MODAL -->
+    <div class="overlay" id="onboardingOverlay">
+      <div class="modal" style="max-width:500px;">
+        
+        <div class="onboarding-slide active" id="onboard-slide-1">
+          <h2 style="font-size:1.75rem; margin-bottom:12px; color:var(--primary);" data-i18n="onboard_welcome">Welcome to Carbon Twin AI</h2>
+          <p style="font-size:0.9rem; color:var(--text-secondary); line-height:1.6; margin-bottom:24px;" data-i18n="onboard_desc">
+            Map, simulate, and optimize your carbon digital twin entirely inside your browser. No trackers, no databases, all local.
+          </p>
+          <button class="btn btn-primary" onclick="app.nextOnboardingSlide(2)" data-i18n="btn_continue">Continue</button>
+        </div>
+
+        <div class="onboarding-slide" id="onboard-slide-2">
+          <h2 style="font-size:1.5rem; margin-bottom:12px;" data-i18n="onboard_who">Who are you?</h2>
+          <div class="form-group" style="text-align:left;">
+            <label for="onboardName" data-i18n="onboard_name_label">Preferred Name</label>
+            <div class="input-with-unit">
+              <input type="text" id="onboardName" value="Eco Walker">
+            </div>
+          </div>
+          <div style="display:flex; justify-content:center; gap:12px; margin-top:24px;">
+            <button class="btn btn-secondary" onclick="app.nextOnboardingSlide(1)" data-i18n="btn_back">Back</button>
+            <button class="btn btn-primary" onclick="app.finishOnboarding()" data-i18n="btn_start">Start Journey</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+  </div>
+
+  <!-- Main script file load -->
+  <script src="script.js" defer></script>
+</body>
+</html>
